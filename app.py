@@ -1,5 +1,3 @@
-pip install -r requirements.txt
-
 import streamlit as st
 from llama_index.core import VectorStoreIndex, SimpleDirectoryReader, Settings
 from llama_index.llms.ollama import Ollama
