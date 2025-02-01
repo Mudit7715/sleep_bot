@@ -10,7 +10,7 @@ import sys
 load_dotenv()
 
 # Access the API keys
-openai_key = os.getenv("OPENAI_API_KEY")
+openai_key = os.os.environ.get("OPENAI_API_KEY")
 
 def main():
 
