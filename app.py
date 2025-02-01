@@ -4,22 +4,6 @@ from llama_index.core.query_engine import RetrieverQueryEngine
 from llama_index.core.response_synthesizers import get_response_synthesizer
 import os
 import sys
-
-def get_data_path():
-    # Get the directory where the script is located
-    script_dir = Path(__file__).parent.absolute()
-    
-    # Look for data files in the same directory as the script
-    data_files = list(script_dir.glob("*.rtf"))
-    
-    if not data_files:
-        # If no RTF files found in script directory, try a 'data' subdirectory
-        data_dir = script_dir / "data"
-        if not data_dir.exists():
-            raise ValueError(f"No RTF files found in {script_dir} or {data_dir}")
-        data_files = list(data_dir.glob("*.rtf"))
-        if not data_files:
-            raise ValueError(f"No RTF files found in {data_dir}")
             
 # Access the API keys
 openai_key = os.environ.get("OPENAI_API_KEY")
@@ -33,7 +17,7 @@ def main():
     if "messages" not in st.session_state:
         st.session_state.messages = []
     
-    rtf_path = get_data_path()
+    rtf_path = "."
 
     # Display chat header
     st.title("Sleep Bot 💤")
