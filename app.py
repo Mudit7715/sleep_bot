@@ -3,11 +3,9 @@ from llama_index.core import VectorStoreIndex, SimpleDirectoryReader, Settings
 from llama_index.llms.ollama import Ollama
 from llama_index.core.query_engine import RetrieverQueryEngine
 from llama_index.core.response_synthesizers import get_response_synthesizer
-from dotenv import load_dotenv
 import os
 import sys
-# Load the .env file
-load_dotenv()
+
 
 # Access the API keys
 openai_key = os.os.environ.get("OPENAI_API_KEY")
