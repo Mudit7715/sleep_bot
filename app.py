@@ -19,7 +19,7 @@ def main():
     if "messages" not in st.session_state:
         st.session_state.messages = []
     
-    rtf_path = "C:/Users/gupta/OneDrive/Desktop/LLMS/Multi-Agent/env/sleep_bot"
+    rtf_path = r"C:/Users/gupta/OneDrive/Desktop/LLMS/Multi-Agent/env/sleep_bot/sleep_data.rtf"
 
     # Display chat header
     st.title("Sleep Bot 💤")
