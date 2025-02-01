@@ -3,8 +3,17 @@ from llama_index.core import VectorStoreIndex, SimpleDirectoryReader, Settings
 from llama_index.llms.ollama import Ollama
 from llama_index.core.query_engine import RetrieverQueryEngine
 from llama_index.core.response_synthesizers import get_response_synthesizer
+from dotenv import load_dotenv
+import os
+import sys
+# Load the .env file
+load_dotenv()
+
+# Access the API keys
+openai_key = os.getenv("OPENAI_API_KEY")
 
 def main():
+
     # Configure Streamlit page
     st.set_page_config(page_title="Sleep Bot", page_icon="💤")
     
@@ -18,10 +27,6 @@ def main():
     st.title("Sleep Bot 💤")
     st.subheader("Your personal sleep assistant")
 
-    # Initialize LLM and load documents (existing code)
-    # llm = Ollama(model="deepseek-coder:1.5b", request_timeout=120.0)
-    # service_context = Settings.from_defaults(llm=llm)
-    # Settings.llm = Ollama(model="deepseek-r1:1.5b", request_timeout=120.0)
     documents = SimpleDirectoryReader(rtf_path).load_data()
     index = VectorStoreIndex.from_documents(documents)
     retriever = index.as_retriever(similarity_top_k=3)
