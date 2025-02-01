@@ -8,7 +8,7 @@ import sys
 
 
 # Access the API keys
-openai_key = os.os.environ.get("OPENAI_API_KEY")
+openai_key = os.environ.get("OPENAI_API_KEY")
 
 def main():
 
