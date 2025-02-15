@@ -38,7 +38,7 @@ def main():
 
     from llama_index.llms.ollama import Ollama
 
-    llm = Ollama(model="llama3.1", request_timeout=120.0)
+    llm = Ollama(model="llama3.1",url="http://localhost:11434, request_timeout=120.0)
     embed_model = HuggingFaceEmbedding(model_name="BAAI/bge-small-en-v1.5")
     
     # Configure Settings
