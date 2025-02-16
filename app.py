@@ -25,7 +25,7 @@ def main():
 
     documents = SimpleDirectoryReader(rtf_path).load_data()
     index = VectorStoreIndex.from_documents(documents)
-    retriever = index.as_retriever(similarity_top_k=3)
+    retriever = index.as_retriever(streaming = True ,similarity_top_k=2)
     
     # Display chat messages
     for message in st.session_state.messages:
@@ -33,26 +33,47 @@ def main():
             st.write(message["content"])
     
     # Chat input and response
+   # Chat input and response
     if prompt := st.chat_input("How can I help you with your sleep?"):
         # Add user message
         st.session_state.messages.append({"role": "user", "content": prompt})
         with st.chat_message("user"):
             st.write(prompt)
         
-        # Generate response using existing query engine
-        response_synthesizer = get_response_synthesizer(response_mode="tree_summarize")
-        query_engine = RetrieverQueryEngine(
-            retriever=retriever,
-            response_synthesizer=response_synthesizer,
-        )
-        response = query_engine.query(prompt)
-        
-        # Display assistant response
-        with st.chat_message("assistant"):
-            st.write(response.response)
-        
-        # Add assistant response to history
-        st.session_state.messages.append({"role": "assistant", "content": response.response})
+        try:
+            # Generate response using streaming
+            response_synthesizer = get_response_synthesizer(
+                response_mode="tree_summarize",
+                streaming=True
+            )
+            query_engine = RetrieverQueryEngine(
+                retriever=retriever,
+                response_synthesizer=response_synthesizer,
+            )
+            
+            # Stream response
+            with st.chat_message("assistant"):
+                response_placeholder = st.empty()
+                full_response = ""
+                
+                # Get streaming response
+                streaming_response = query_engine.query(prompt)
+                for chunk in streaming_response.response_gen:
+                    if chunk:
+                        full_response += chunk
+                        response_placeholder.markdown(full_response + "▌")
+                
+                # Display final response
+                response_placeholder.markdown(full_response)
+            
+            # Add complete response to history
+            st.session_state.messages.append({
+                "role": "assistant", 
+                "content": full_response
+            })
 
+        except Exception as e:
+            st.error(f"Error generating response: {str(e)}")
+                    
 if __name__ == "__main__":
     main()
